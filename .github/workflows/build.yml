@@ -41,10 +41,12 @@ jobs:
           ./install.sh --accept-all-defaults
           echo "/home/runner/bin" >> $GITHUB_PATH
           exec -l $SHELL
+
       - name: 'Fix Config File Permissions'
         run: |
           oci setup repair-file-permissions --file /home/runner/.oci/config
           oci setup repair-file-permissions --file /home/runner/.oci/oci_api_key.pem
+          
       - name: 'Deploy Into Object Storage'
         run: |
           oci os object bulk-delete  -bn ${{secrets.OCI_BUCKET}}  --prefix static --force
